@@ -109,7 +109,6 @@ module Greed
 
           if rule[0] <= times
             curr_iteration_score += rule[1]
-            print "Using #{rule[0]} times\n"
             dice_used += rule[0]
             times -= rule[0]
             break
