@@ -18,7 +18,7 @@ def show_total_score
   puts $current_player.total_score
 end
 
-def ask_again
+def ask
   print 'Do you want to roll the non-scoring '\
         "#{$current_player.active.size} dices?(y/n): "
   response = gets.chomp
@@ -62,7 +62,7 @@ loop do
 
   show_total_score
 
-  same_player = (ask_again if !$current_player.active.empty? && $current_player.round_score != 0)
+  same_player = (ask if !$current_player.active.empty? && $current_player.round_score != 0)
 
   unless same_player
 
