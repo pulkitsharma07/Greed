@@ -35,4 +35,33 @@ describe 'Player' do
       expect(p.active.map(&:value)).to eql([2, 2, 4])
     end
   end
+
+  describe '#reset' do
+    it 'should provide the player with fresh new dice' do
+      p = Greed::Player.new('1')
+
+      p.set([2, 3, 4])
+
+      p.reset
+      expect(p.active.size).to eql(5)
+    end
+  end
+
+  describe '#lost_turn' do
+    before(:each) do
+      @player = Greed::Player.new(1)
+    end
+
+    it 'should subtract the round_score from the total_score' do
+      @player.total_score = 400
+      @player.lost_turn(100)
+      expect(@player.total_score).to eql(300)
+    end
+
+    it 'should not make total_score be negative' do
+      @player.total_score = 300
+      @player.lost_turn(400)
+      expect(@player.total_score).to eql(0)
+    end
+  end
 end

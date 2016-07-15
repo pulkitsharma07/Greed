@@ -76,7 +76,10 @@ module Greed
 
   # Class to handle the Player
   class Player
-    attr_reader :active, :name, :total_score, :state, :round_score
+    attr_reader :active, :name, :state, :round_score
+
+    # had to made it accessible for testing purposes
+    attr_accessor :total_score
 
     def initialize(name)
       @name = name
