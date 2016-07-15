@@ -106,3 +106,7 @@ loop do
   print "\n\n"
 
 end
+
+winner = players[players.map(&:total_score).each_with_index.max[1]]
+
+puts "\n The winner is Player #{winner.name} with #{winner.total_score} points".yellow
