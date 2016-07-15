@@ -60,8 +60,9 @@ module Greed
   class Die
     attr_accessor :value
 
-    def initialize
-      roll
+    def initialize(val = nil)
+      @value = val
+      roll unless val
     end
 
     def roll
@@ -86,12 +87,19 @@ module Greed
         @active << Die.new
       end
 
-       # @active[0].value = 1
-       # @active[1].value = 6
-       # @active[2].value = 6
-       # @active[3].value = 6
-       # @active[4].value = 5
+      # @active[0].value = 1
+      # @active[1].value = 6
+      # @active[2].value = 6
+      # @active[3].value = 6
+      # @active[4].value = 5
+    end
 
+    def set(values)
+      new_active = []
+      values.size.times do |x|
+        new_active << Die.new(values[x])
+      end
+      @active.replace(new_active)
     end
 
     def roll
