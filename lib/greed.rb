@@ -117,9 +117,9 @@ module Greed
       @active = @active[0...-used] if used != 0
 
       @state = 'accumulate' if round_score >= 300
-      @state = 'final' if @total_score >= 3000
 
       @total_score += @round_score if @state == 'accumulate'
+      @state = 'final' if @total_score >= 3000
 
       @round_score
     end

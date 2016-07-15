@@ -29,12 +29,11 @@ def ask
   end
 end
 
-
 def banner(turn)
-  print "\nTurn #{turn}".yellow + "\n" + "_"*10 + "\n"
+  print "\nTurn #{turn}".yellow + "\n" + '_' * 10 + "\n"
 end
 
-print "Enter number of players: "
+print 'Enter number of players: '
 
 num_players = gets.chomp.to_i
 
@@ -49,13 +48,25 @@ turn = 1
 same_player = false
 new_turn = true
 round_total_score = 0
+final_round = false
+final_player = -1
 
 loop do
-  $current_player = players[current_player_index]
 
+  if current_player_index == final_player
+    current_player_index = current_player_index + 1
+
+    if current_player_index == players.size
+      # last player
+      break
+    else
+      # more players left
+      next
+    end
+  end
+  $current_player = players[current_player_index]
   banner(turn) if new_turn
   new_turn = false
-
 
   roll
   show_score
@@ -64,8 +75,12 @@ loop do
 
   $current_player.lost_turn(round_total_score) if $current_player.round_score == 0
 
-
   show_total_score
+
+  if $current_player.state == 'final'
+    final_round = true
+    final_player = current_player_index
+  end
 
   same_player = (ask if !$current_player.active.empty? && $current_player.round_score != 0)
 
@@ -74,10 +89,16 @@ loop do
     $current_player.reset
 
     current_player_index += 1
-    if(current_player_index == players.size)
+    if current_player_index == players.size
+
+      break if turn == 'FINAL ROUND'
+
       turn += 1
       new_turn = true
       current_player_index = 0
+
+      turn = 'FINAL ROUND' if final_round
+
     end
     round_total_score = 0
   end
