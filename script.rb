@@ -1,8 +1,8 @@
-require_relative 'greed.rb'
+require_relative 'lib/greed.rb'
 
 def roll
   dice = $current_player.roll
-  print "Player #{$current_player.name} rolls: "
+  print "Player #{$current_player.name}".green + " rolls: "
   puts dice.join(', ')
 end
 
@@ -31,7 +31,7 @@ end
 
 
 def banner(turn)
-  print "\nTurn #{turn}\n" + "_"*10 + "\n"
+  print "\nTurn #{turn}".yellow + "\n" + "_"*10 + "\n"
 end
 
 print "Enter number of players: "

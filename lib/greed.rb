@@ -13,6 +13,49 @@ module Greed
   RULES[5] << [3, 500] << [1, 50]
   RULES[6] << [3, 600]
 
+  def self.points(value, times)
+    points = 0
+    freq = times
+    dice_used = 0
+
+    loop do
+      curr_iteration_score = 0
+
+      RULES[value].each do |rule|
+        if rule[0] <= times
+          curr_iteration_score += rule[1]
+          dice_used += rule[0]
+          times -= rule[0]
+          break
+        end
+      end
+
+      points += curr_iteration_score
+      break if curr_iteration_score == 0
+    end
+
+    [points, dice_used]
+  end
+
+  def self.frequencies(dice)
+    counts = {}
+    dice.each do |die|
+      counts[die] = (counts[die] || 0) + 1
+    end
+
+    counts
+  end
+
+  def self.test(input)
+    tot = 0
+    used = 0
+    Greed.frequencies(input).each do |elem|
+      points = Greed.points(elem[0], elem[1])
+      tot += points[0]
+      used += points[1]
+    end
+    [tot, used]
+  end
   # Class to handle Die
   class Die
     attr_accessor :value
@@ -59,13 +102,19 @@ module Greed
       # p @active.map(&:to_s).join(', ')
       @round_score = used = 0
 
-      self.class.frequencies(@active.map(&:value)).each do |elem|
-        points = self.class.points(elem[0], elem[1])
+      Greed.frequencies(@active.map(&:value)).each do |elem|
+        points = Greed.points(elem[0], elem[1])
         used += points[1]
         @round_score += points[0]
       end
 
-      @active = @active[0...-used] if used != 0 && used != 5
+      # All die are scoring
+      if used == @active.size
+        reset
+        used = 0
+      end
+
+      @active = @active[0...-used] if used != 0
 
       @state = 'accumulate' if round_score >= 300
       @state = 'final' if @total_score >= 3000
@@ -87,48 +136,37 @@ module Greed
       @total_score -= round_score
       @total_score = [0, @total_score].max
     end
+  end
+end
 
-    def self.test(input)
-      tot = 0
-      frequencies(input).each do |elem|
-        points = points(elem[0], elem[1])
-        tot += points
-      end
-      p tot
-    end
+#Adding some methods to colorize
+class String
+  # colorization
+  def colorize(color_code)
+    "\e[#{color_code}m#{self}\e[0m"
+  end
 
-    def self.points(value, times)
-      points = 0
-      freq = times
-      dice_used = 0
+  def red
+    colorize(31)
+  end
 
-      loop do
-        curr_iteration_score = 0
+  def green
+    colorize(32)
+  end
 
-        RULES[value].each do |rule|
+  def yellow
+    colorize(33)
+  end
 
-          if rule[0] <= times
-            curr_iteration_score += rule[1]
-            dice_used += rule[0]
-            times -= rule[0]
-            break
-          end
-        end
+  def blue
+    colorize(34)
+  end
 
-        points += curr_iteration_score
-        break if curr_iteration_score == 0
-      end
+  def pink
+    colorize(35)
+  end
 
-      [points, dice_used]
-    end
-
-    def self.frequencies(dice)
-      counts = {}
-      dice.each do |die|
-        counts[die] = (counts[die] || 0) + 1
-      end
-
-      counts
-    end
+  def light_blue
+    colorize(36)
   end
 end
