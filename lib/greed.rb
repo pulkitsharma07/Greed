@@ -86,12 +86,6 @@ module Greed
       5.times do
         @active << Die.new
       end
-
-      # @active[0].value = 1
-      # @active[1].value = 6
-      # @active[2].value = 6
-      # @active[3].value = 6
-      # @active[4].value = 5
     end
 
     def set(values)
