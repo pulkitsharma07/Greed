@@ -34,10 +34,15 @@ def banner(turn)
   print "\nTurn #{turn}\n" + "_"*10 + "\n"
 end
 
-players = []
-players << Greed::Player.new('1')
-players << Greed::Player.new('2')
+print "Enter number of players: "
 
+num_players = gets.chomp.to_i
+
+players = []
+
+num_players.times do |player_name|
+  players << Greed::Player.new((player_name + 1).to_s)
+end
 
 current_player_index = 0
 turn = 1
