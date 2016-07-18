@@ -124,14 +124,13 @@ module Greed
       end
 
       @active = @active[0...-used] if used != 0
-
-      @state = 'final' if @total_score >= 3000
-
+      update_state
       @round_score
     end
 
     def reset
       @total_score = 0 if @total_score < 300
+      update_state
       new_active = []
       5.times do
         new_active << Die.new
@@ -142,6 +141,10 @@ module Greed
     def lost_turn(round_score)
       @total_score -= round_score
       @total_score = [0, @total_score].max
+    end
+
+    def update_state
+      @state = @total_score >= 3000 ? 'final' : 'initial'
     end
   end
 end

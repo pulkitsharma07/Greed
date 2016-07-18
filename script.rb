@@ -63,6 +63,7 @@ loop do
       next
     end
   end
+
   $current_player = players[current_player_index]
   banner(turn) if new_turn
   new_turn = false
@@ -76,16 +77,17 @@ loop do
 
   show_total_score
 
-  if $current_player.state == 'final'
-    final_round = true
-    final_player = current_player_index
-  end
-
   same_player = (ask if !$current_player.active.empty? && $current_player.round_score != 0)
 
   unless same_player
 
     $current_player.reset
+
+
+    if $current_player.state == 'final'
+      final_round = true
+      final_player = current_player_index
+    end
 
     current_player_index += 1
     if current_player_index == players.size
