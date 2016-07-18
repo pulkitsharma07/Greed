@@ -15,7 +15,6 @@ module Greed
 
   def self.points(value, times)
     points = 0
-    freq = times
     dice_used = 0
 
     loop do
@@ -113,7 +112,6 @@ module Greed
         @round_score += points[0]
       end
 
-
       @total_score += @round_score
 
       # All die are scoring
@@ -126,7 +124,6 @@ module Greed
       end
 
       @active = @active[0...-used] if used != 0
-
 
       @state = 'final' if @total_score >= 3000
 
@@ -149,7 +146,7 @@ module Greed
   end
 end
 
-#Adding some methods to colorize
+# Adding some methods to colorize
 class String
   # colorization
   def colorize(color_code)
