@@ -113,23 +113,28 @@ module Greed
         @round_score += points[0]
       end
 
+
+      @total_score += @round_score
+
       # All die are scoring
       if used == @active.size
+        # saving total_score
+        tot_score = @total_score
         reset
+        @total_score = tot_score
         used = 0
       end
 
       @active = @active[0...-used] if used != 0
 
-      @state = 'accumulate' if round_score >= 300
 
-      @total_score += @round_score if @state == 'accumulate'
       @state = 'final' if @total_score >= 3000
 
       @round_score
     end
 
     def reset
+      @total_score = 0 if @total_score < 300
       new_active = []
       5.times do
         new_active << Die.new
