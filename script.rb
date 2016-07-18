@@ -53,7 +53,7 @@ final_player = -1
 
 loop do
 
-  if current_player_index == final_player
+  if current_player_index == final_player && final_round && !same_player
     current_player_index = current_player_index + 1
 
     if current_player_index == players.size
